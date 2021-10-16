@@ -1,5 +1,7 @@
 from argparse import ArgumentParser
 import json
+from pathlib import Path
+import sys
 
 from colorama import init, Fore
 
@@ -14,6 +16,16 @@ def print_result(correct, total):
         print(Fore.RED + f'{"FAIL":<6}', end='')
 
     print(f'{correct} / {total}')
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = Path.cwd()
+
+    return f'{str(base_path)}\\{relative_path}'
     
 
 if __name__ == '__main__':
@@ -32,7 +44,7 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    with open(args.test_file, 'r') as fp:
+    with open(resource_path(args.test_file), 'r') as fp:
         questions = json.load(fp)
 
     for q in questions:
