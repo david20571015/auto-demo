@@ -1,0 +1,51 @@
+from argparse import ArgumentParser
+import json
+
+from colorama import init, Fore
+
+from src.Grader import Grader
+
+init(autoreset=True, wrap=True)
+
+def print_result(correct, total):
+    if correct == total:
+        print(Fore.GREEN + f'{"PASS":<6}', end='')
+    else:
+        print(Fore.RED + f'{"FAIL":<6}', end='')
+
+    print(f'{correct} / {total}')
+    
+
+if __name__ == '__main__':
+    parser = ArgumentParser()
+    parser.add_argument(
+        '--test-file',
+        '-t',
+        default='.\\test.json',
+        type=str
+    )
+    parser.add_argument(
+        '--execution-dir',
+        '-e',
+        default='.',
+        type=str
+    )
+    args = parser.parse_args()
+
+    with open(args.test_file, 'r') as fp:
+        questions = json.load(fp)
+
+    for q in questions:
+        execution_file = f'{args.execution_dir}\\{q["id"]}.exe'
+        grader = Grader(execution_file, q)
+
+        print(f'{q["id"] + ".":<3}', end='')
+
+        try:
+            correct, total = grader.judge()
+            print_result(correct, total)
+        except Exception as err:
+            print(Fore.RED + f'{"ERROR":<6}', end='')
+            print(err)
+
+    input("Press any key to continue...")
