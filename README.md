@@ -13,7 +13,7 @@
    * `git clone https://github.com/david20571015/auto-demo.git` 或
    * [Download](https://github.com/david20571015/auto-demo/archive/refs/heads/main.zip)
 2. 安裝 [pipenv](https://pypi.org/project/pipenv/): `pip install pipenv`
-3. 安裝需要的dependency: `pipenv install --dev`
+3. 安裝需要的dependency: `pipenv install --dev --skip-lock`
 4. 進入pipenv (以下沒特別講都在這個shell中執行): `pipenv shell`
 5. 整合[測資](https://github.com/david20571015/auto-demo#測資格式): `python build_test.py`
 6. (Optional) 測試auto-demo執行: `python grade.py` (所有題目都要PASS)
