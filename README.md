@@ -13,10 +13,10 @@
    * `git clone https://github.com/david20571015/auto-demo.git` 或
    * [Download](https://github.com/david20571015/auto-demo/archive/refs/heads/main.zip)
 2. 安裝 [pipenv](https://pypi.org/project/pipenv/): `pip install pipenv`
-3. 安裝需要的dependency: `pipenv install --dev`
+3. 安裝需要的dependency: `pipenv install --dev --skip-lock`
 4. 進入pipenv (以下沒特別講都在這個shell中執行): `pipenv shell`
 5. 整合[測資](https://github.com/david20571015/auto-demo#測資格式): `python build_test.py`
-6. (Optional) 測試auto-demo執行: `python grade.py` (所有題目都要PASS)
+6. (Optional) 將本次lab的執行檔放成[指定的格式](https://github.com/david20571015/auto-demo#執行檔格式)後測試auto-demo執行: `python grade.py` (所有題目都要PASS)
 7. 產生auto-demo執行檔: `python -OO -m PyInstaller --onefile --add-data "test.json;." .\grade.py`
 8. (Optional) 刪除不需要的檔案: `rmdir -Recurse -Force ".\build"`, `rm ".\grade.spec"`
 9. `./dist/grade.exe`即為auto-demo的執行檔
