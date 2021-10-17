@@ -24,7 +24,8 @@ for ($i = 1; $i -le $data.count; $i++) {
     
     $exe_file = ".\" + $i.ToString() + ".exe"
     if(test-path $exe_file){
-        get-content ($p+$in_file) | &$exe_file > ($p+$out_file)
+        get-content ($p+$in_file) | &$exe_file > ($p+"tmp")
+        Get-Content ($p+"tmp") -Encoding Unicode | Set-Content -Encoding UTF8 ($p+$out_file)
+        Remove-Item ($p+"tmp")
     }
 }
-# get-content .\test\1\1.in | .\1.exe > .\test\1\1.out
