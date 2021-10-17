@@ -49,13 +49,13 @@ if __name__ == '__main__':
 
     for q in questions:
         execution_file = f'{args.execution_dir}\\{q["id"]}.exe'
-        grader = Grader(execution_file, q)
-
-        print(f'{q["id"] + ".":<3}', end='')
 
         try:
+            print(f'{q["id"] + ".":<3}', end='')
+            grader = Grader(execution_file, q)
             correct, total = grader.judge()
             print_result(correct, total)
+
         except Exception as err:
             print(Fore.RED + f'{"ERROR":<6}', end='')
             print(err)
