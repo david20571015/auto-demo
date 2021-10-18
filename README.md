@@ -28,7 +28,7 @@
 
 ### 測資格式 ([參考](https://github.com/david20571015/auto-demo/blob/dev/test.in))
 
-同一筆測資請放在同一行，並以空白隔開。
+同一筆測資請放在同一行，並以空白隔開。只需要input，對應的output由此程式產生。
 編碼請使用UTF-8，目前還沒測試過其他編碼。
 
 ```txt
