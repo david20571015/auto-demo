@@ -26,7 +26,7 @@ if __name__ == '__main__':
         description='Run this program to grade your execution files.')
     parser.add_argument('--execution-dir',
                         '-e',
-                        default='.\\exec',
+                        default='.',
                         type=str,
                         help='The directory of execution files.')
     parser.add_argument('--testcase-file',
