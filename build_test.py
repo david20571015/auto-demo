@@ -9,4 +9,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     loader = TestLoader(test_dir=args.test_dir)
-    loader.gen_json(args.output)
+    loader.to_json(args.output)

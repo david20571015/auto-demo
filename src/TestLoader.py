@@ -13,7 +13,7 @@ class TestLoader(object):
             if child.is_dir() and child.name.isdigit():
                 self.ids.append(child.name)
 
-    def gen_json(self, filename):
+    def to_json(self, filename):
         questions = []
         for id in self.ids:
             io_texts = self.load_io_pair(id)
