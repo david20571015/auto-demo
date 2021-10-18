@@ -1,0 +1,76 @@
+from pathlib import Path
+import json
+import subprocess
+
+from colorama import init, Fore
+
+init(autoreset=True, wrap=True)
+
+
+class TestBuilder(object):
+
+    def __init__(self, execution_dir='.\\exec'):
+        self.execution_dir = execution_dir
+        if not Path(self.execution_dir).is_dir():
+            raise FileNotFoundError(f'{self.execution_dir} not found.')
+
+        self.testcases = []
+
+    def parse_test_file(self, test_file='.\\test.in'):
+        if not Path(test_file).is_file():
+            raise FileNotFoundError(f'{test_file} not found.')
+
+        with open(test_file, 'r') as f:
+            while True:
+                id, print_detail = f.readline().strip().split(' ')
+                n_cases = int(f.readline())
+                inputs = [f.readline().strip() for _ in range(n_cases)]
+
+                testcase = {
+                    'id': id,
+                    'print_detail': print_detail != '0',
+                    'inputs': inputs,
+                }
+                self.testcases.append(testcase)
+
+                if not f.readline():
+                    break
+
+    def execute(self):
+        for testcase in self.testcases:
+            print(f'Question {testcase["id"]}. ', end='')
+
+            execution_file = f'{self.execution_dir}\\{testcase["id"]}.exe'
+            if not Path(execution_file).is_file():
+                print(Fore.RED + 'Error: ' + Fore.RESET +
+                      f'{execution_file} not found')
+                continue
+
+            outputs = []
+            for input in testcase["inputs"]:
+                output = subprocess.run(execution_file,
+                                        stdout=subprocess.PIPE,
+                                        input=input,
+                                        encoding='ascii').stdout
+                outputs.append(output)
+            testcase |= {'outputs': outputs}
+
+            print(Fore.GREEN + 'Successed: ' + Fore.RESET +
+                  f'got {len(outputs)} test cases.')
+
+    def dump_outputs(self, output_dir='.\\outputs'):
+        if 'outputs' not in self.testcases[0].keys():
+            raise RuntimeError(
+                'Please invoke TestBuilder.execute() before invoke this function.'
+            )
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+
+        for testcase in self.testcases:
+            for i, output in enumerate(testcase["outputs"]):
+                with open(f'{output_dir}\\{testcase["id"]}-{i+1}.txt',
+                          'w') as f:
+                    print(output, end='', file=f)
+
+    def to_json(self, filename='.\\test.json'):
+        with open(filename, 'w') as f:
+            json.dump(self.testcases, fp=f, indent=2)
