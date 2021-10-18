@@ -37,7 +37,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     grader = Grader(execution_dir=args.execution_dir)
-    grader.parse_testcase_file(args.testcase_file)
+    grader.parse_testcase_file(resource_path(args.testcase_file))
     grader.judge()
 
     input("Press any key to continue...")
