@@ -1,8 +1,8 @@
-from pathlib import Path
 import json
 import subprocess
+from pathlib import Path
 
-from colorama import init, Fore
+from colorama import Fore, init
 
 init(autoreset=True, wrap=True)
 
