@@ -4,7 +4,7 @@ from pathlib import Path
 
 from colorama import Fore, init
 
-from src.Grader import Grader
+from src.grader import Grader
 
 init(autoreset=True, wrap=True)
 
