@@ -9,6 +9,7 @@ from src.Grader import Grader
 
 init(autoreset=True, wrap=True)
 
+
 def print_result(correct, total):
     if correct == total:
         print(Fore.GREEN + f'{"PASS":<6}', end='')
@@ -16,6 +17,7 @@ def print_result(correct, total):
         print(Fore.RED + f'{"FAIL":<6}', end='')
 
     print(f'{correct} / {total}')
+
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -26,22 +28,12 @@ def resource_path(relative_path):
         base_path = Path.cwd()
 
     return f'{str(base_path)}\\{relative_path}'
-    
+
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument(
-        '--test-file',
-        '-t',
-        default='.\\test.json',
-        type=str
-    )
-    parser.add_argument(
-        '--execution-dir',
-        '-e',
-        default='.',
-        type=str
-    )
+    parser.add_argument('--test-file', '-t', default='.\\test.json', type=str)
+    parser.add_argument('--execution-dir', '-e', default='.', type=str)
     args = parser.parse_args()
 
     with open(resource_path(args.test_file), 'r') as fp:

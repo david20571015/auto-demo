@@ -1,7 +1,10 @@
 from pathlib import Path
 import json
+import subprocess
+
 
 class TestLoader(object):
+
     def __init__(self, test_dir: str = './test'):
         self.test_dir = Path('.') / test_dir
 
@@ -9,24 +12,22 @@ class TestLoader(object):
         for child in self.test_dir.iterdir():
             if child.is_dir() and child.name.isdigit():
                 self.ids.append(child.name)
- 
-    
+
     def gen_json(self, filename):
         questions = []
         for id in self.ids:
             io_texts = self.load_io_pair(id)
             ques_dict = {
-                "id": id, 
-                "inputs": io_texts[0], 
+                "id": id,
+                "inputs": io_texts[0],
                 "outputs": io_texts[1]
             }
             questions.append(ques_dict)
-        
+
         with open(filename, 'w') as f:
             json.dump(questions, fp=f, indent=4)
 
-
-    def load_io_pair(self, id):
+    def load_io_pair(self, id: str):
         io_pair_dir = self.test_dir / id
 
         if not io_pair_dir.exists():
