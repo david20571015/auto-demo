@@ -10,42 +10,37 @@
 ## 使用方法 for TAs
 
 1. 取得這個repo: (以下沒特別講都是在這個repo的資料夾下執行)
-   * `git clone https://github.com/david20571015/auto-demo.git` 或
-   * [Download](https://github.com/david20571015/auto-demo/archive/refs/heads/main.zip)
+   * `git clone --branch dev https://github.com/david20571015/auto-demo.git` 或
+   * [Download](https://github.com/david20571015/auto-demo/archive/refs/heads/dev.zip)
 2. 安裝 [pipenv](https://pypi.org/project/pipenv/): `pip install pipenv`
 3. 安裝需要的dependency: `pipenv install --dev --skip-lock`
 4. 進入pipenv (以下沒特別講都在這個shell中執行): `pipenv shell`
-5. 整合[測資](https://github.com/david20571015/auto-demo#測資格式): `python build_test.py`
-6. (Optional) 將本次lab的執行檔放成[指定的格式](https://github.com/david20571015/auto-demo#執行檔格式)後測試auto-demo執行: `python grade.py` (所有題目都要PASS)
+5. 整合測資:
+   1. 將[測資](https://github.com/david20571015/auto-demo/tree/dev#%E6%B8%AC%E8%B3%87%E6%A0%BC%E5%BC%8F)放到`test.in`中
+   2. 將各題編譯好的執行檔放到`.\exec`資料夾中
+   3. 執行`python build_test.py`
+6. (Optional) 將本次lab的執行檔放成[指定的格式](https://github.com/david20571015/auto-demo/tree/dev#%E5%9F%B7%E8%A1%8C%E6%AA%94%E6%A0%BC%E5%BC%8F)後測試auto-demo執行: `python grade.py --execution-dir .\exec` (所有題目都要PASS)
 7. 產生auto-demo執行檔: `python -OO -m PyInstaller --onefile --add-data "test.json;." .\grade.py`
-8. (Optional) 刪除不需要的檔案: `rmdir -Recurse -Force ".\build"`, `rm ".\grade.spec"`
-9. `./dist/grade.exe`即為auto-demo的執行檔
-10. (Optional) 移除這個pipenv的dependency: `pipenv --rm`
+8. (Optional) 刪除編譯過程產生的檔案: `rmdir -Recurse -Force ".\build"; rm ".\grade.spec"`
+9. `.\dist\grade.exe`即為auto-demo的執行檔
+10. (Optional) 將`.\dist\grade.exe`移到`.\exec`中點兩下執行，檢查是否能正常使用
+11. (Optional) 移除這個pipenv的dependency: `pipenv --rm`
 
-### 測資格式
+### 測資格式 ([參考](https://github.com/david20571015/auto-demo/blob/dev/test.in))
+
+同一筆測資請放在同一行，並以空白隔開。
+編碼請使用UTF-8，目前還沒測試過其他編碼。
 
 ```txt
-auto-demo
-|- test
-   |- 1 (題號)
-      |- 1.in
-      |- 1.out
-      |- 2.in
-      |- 2.out
-   |- 2
-      |- 1.in
-      |- 1.out
-|- src
-|- build_test.py
-|- grade.py
+<題號> <Fail時顯示差異, 0為不顯示, 非0為顯示>
+<測資數量>
+<測資1>
+<測資2>
 .
 .
 .
+<空行>
 ```
-
-請TA先準備好test資料夾，並在裡面創好各題號的資料夾以及`*.in`和`*.out`作為測資，檔名一樣的會視為一組測資。
-`*.out`可使用Powershell指令`Get-Content {*.in} | {*.exe} > {*.out}`產生。
-( 相當於linux的`{*.out} < {*.in} > {*.out}` )
 
 ## 使用方法 for 學生
 
@@ -65,4 +60,4 @@ auto-demo
 .
 ```
 
-請將編譯完的執行檔與`grade.exe`放在同一個路徑。執行檔的檔名要跟題號相同。
+請將編譯完的執行檔與`grade.exe`放在同一個路徑。執行檔的檔名要跟對應的題號相同。
