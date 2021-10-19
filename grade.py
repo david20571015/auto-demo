@@ -1,22 +1,12 @@
-from argparse import ArgumentParser
-import json
-from pathlib import Path
 import sys
+from argparse import ArgumentParser
+from pathlib import Path
 
-from colorama import init, Fore
+from colorama import Fore, init
 
-from src.Grader import Grader
+from src.grader import Grader
 
 init(autoreset=True, wrap=True)
-
-
-def print_result(correct, total):
-    if correct == total:
-        print(Fore.GREEN + f'{"PASS":<6}', end='')
-    else:
-        print(Fore.RED + f'{"FAIL":<6}', end='')
-
-    print(f'{correct} / {total}')
 
 
 def resource_path(relative_path):
@@ -31,25 +21,23 @@ def resource_path(relative_path):
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument('--test-file', '-t', default='.\\test.json', type=str)
-    parser.add_argument('--execution-dir', '-e', default='.', type=str)
+    parser = ArgumentParser(
+        prog='grade.py',
+        description='Run this program to grade your execution files.')
+    parser.add_argument('--execution-dir',
+                        '-e',
+                        default='.',
+                        type=str,
+                        help='The directory of execution files.')
+    parser.add_argument('--testcase-file',
+                        '-t',
+                        default='.\\test.json',
+                        type=str,
+                        help='The file of test cases.')
     args = parser.parse_args()
 
-    with open(resource_path(args.test_file), 'r') as fp:
-        questions = json.load(fp)
-
-    for q in questions:
-        execution_file = f'{args.execution_dir}\\{q["id"]}.exe'
-
-        try:
-            print(f'{q["id"] + ".":<3}', end='')
-            grader = Grader(execution_file, q)
-            correct, total = grader.judge()
-            print_result(correct, total)
-
-        except Exception as err:
-            print(Fore.RED + f'{"ERROR":<6}', end='')
-            print(err)
+    grader = Grader(execution_dir=args.execution_dir)
+    grader.parse_testcase_file(resource_path(args.testcase_file))
+    grader.judge()
 
     input("Press any key to continue...")
