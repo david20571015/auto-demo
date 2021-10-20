@@ -1,8 +1,9 @@
 import json
 import subprocess
+from io import StringIO
 from pathlib import Path
 
-from colorama import Fore, init
+from colorama import Back, Fore, init
 
 init(autoreset=True, wrap=True)
 
@@ -58,14 +59,25 @@ class Grader(object):
         else:
             print(Fore.RED + 'FAIL: ' + Fore.RESET + f'{correct} / {total}')
             for student_output, output in log:
-                print(Fore.LIGHTRED_EX +
-                      '############# YOUR OUTPUT #############')
-                print(student_output)
-                print(Fore.LIGHTGREEN_EX +
-                      '+++++++++++++++ ANSWER ++++++++++++++++')
-                print(output)
-                print(Fore.LIGHTCYAN_EX +
-                      '#######################################')
+                self._print_details(student_output, output)
+
+    def _print_details(self, student_output, output, mask=[2, 4, 5]):
+
+        def print_line(text, mask=[]):
+            for i, line in enumerate(StringIO(text).readlines()):
+                info = f'{i+1:>2}. {len(line):<3}'
+                if i + 1 in mask:
+                    result = Fore.LIGHTBLACK_EX + '(hidden)' + Fore.RESET
+                else:
+                    result = line.replace('\n',
+                                          Back.MAGENTA + '\\n' + Back.RESET)
+                print(f'{info}|{result}')
+
+        print(Fore.LIGHTRED_EX + '#' * 20 + ' YOUR OUTPUT ' + '#' * 20)
+        print_line(student_output)
+        print(Fore.LIGHTGREEN_EX + '+' * 23 + ' ANSWER ' + '+' * 23)
+        print_line(output, mask)
+        print(Fore.LIGHTCYAN_EX + '#' * 54)
 
     def _execute(self, execution: str, input: str) -> str:
         proc = subprocess.run(execution,
