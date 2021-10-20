@@ -41,7 +41,8 @@ class Grader(object):
                 elif testcase['print_detail']:
                     log.append((student_output, output))
 
-            self._print_result(correct, len(testcase['inputs']), log)
+            mask = testcase['mask'] if testcase['print_detail'] else []
+            self._print_result(correct, len(testcase['inputs']), log, mask)
 
     def parse_testcase_file(self, testcase_file='.\\test.json'):
         if not Path(testcase_file).is_file():
@@ -50,7 +51,11 @@ class Grader(object):
         with open(testcase_file, 'r') as f:
             self.testcases = json.load(f)
 
-    def _print_result(self, correct, total, log: list[tuple[str, str]]):
+    def _print_result(self,
+                      correct,
+                      total,
+                      log: list[tuple[str, str]],
+                      mask=[]):
         if total == 0:
             print(Fore.RED + 'ERROR: ' + Fore.RESET +
                   'There is no test data for this question.')
@@ -59,7 +64,7 @@ class Grader(object):
         else:
             print(Fore.RED + 'FAIL: ' + Fore.RESET + f'{correct} / {total}')
             for student_output, output in log:
-                self._print_details(student_output, output)
+                self._print_details(student_output, output, mask)
 
     def _print_details(self, student_output, output, mask=[]):
 

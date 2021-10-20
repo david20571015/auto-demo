@@ -22,14 +22,22 @@ class TestBuilder(object):
 
         with open(test_file, 'r') as f:
             while True:
-                id, print_detail = f.readline().strip().split(' ')
+                id, print_detail, *mask_range = f.readline().strip().split(' ')
+
+                mask = []
+                for start, end in zip(mask_range[::2], mask_range[1::2]):
+                    start = int(start)
+                    end = int(end) + 1
+                    mask.extend(list(range(start, end)))
+
                 n_cases = int(f.readline())
                 inputs = [f.readline().strip() for _ in range(n_cases)]
 
                 testcase = {
                     'id': id,
                     'print_detail': print_detail != '0',
-                    'inputs': inputs,
+                    'mask': mask,
+                    'inputs': inputs
                 }
                 self.testcases.append(testcase)
 
