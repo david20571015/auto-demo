@@ -61,7 +61,7 @@ class Grader(object):
             for student_output, output in log:
                 self._print_details(student_output, output)
 
-    def _print_details(self, student_output, output, mask=[2, 4, 5]):
+    def _print_details(self, student_output, output, mask=[]):
 
         def print_line(text, mask=[]):
             for i, line in enumerate(StringIO(text).readlines()):
