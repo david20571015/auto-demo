@@ -76,13 +76,14 @@ class Grader(object):
                 else:
                     result = line.replace('\n',
                                           Back.MAGENTA + '\\n' + Back.RESET)
-                print(f'{info}|{result}')
+                print(' ' * 8 + f'{info}|{result}')
 
-        print(Fore.LIGHTRED_EX + '#' * 20 + ' YOUR OUTPUT ' + '#' * 20)
+        print(' ' * 8 + Fore.LIGHTRED_EX + '#' * 20 + ' YOUR OUTPUT ' +
+              '#' * 20)
         print_line(student_output)
-        print(Fore.LIGHTGREEN_EX + '+' * 23 + ' ANSWER ' + '+' * 23)
+        print(' ' * 8 + Fore.LIGHTGREEN_EX + '+' * 23 + ' ANSWER ' + '+' * 23)
         print_line(output, mask)
-        print(Fore.LIGHTCYAN_EX + '#' * 54)
+        print(' ' * 8 + Fore.LIGHTCYAN_EX + '#' * 54)
 
     def _execute(self, execution: str, input: str) -> str:
         proc = subprocess.run(execution,
