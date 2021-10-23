@@ -63,3 +63,14 @@
 .
 .
 ```
+
+## 使用結果範例
+
+* PASS
+
+![PASS](https://i.imgur.com/6bCuMxV.png)
+
+* FAIL
+  
+![FAIL](https://i.imgur.com/QrqBIrY.png)
+
