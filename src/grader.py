@@ -81,7 +81,7 @@ class Grader(object):
         print(' ' * 8 + Fore.LIGHTRED_EX + '#' * 20 + ' YOUR OUTPUT ' +
               '#' * 20)
         print_line(student_output)
-        print(' ' * 8 + Fore.LIGHTGREEN_EX + '+' * 23 + ' ANSWER ' + '+' * 23)
+        print(' ' * 8 + Fore.LIGHTGREEN_EX + '-' * 23 + ' ANSWER ' + '-' * 23)
         print_line(output, mask)
         print(' ' * 8 + Fore.LIGHTCYAN_EX + '#' * 54)
 
