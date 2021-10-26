@@ -1,5 +1,15 @@
 # auto demo
 
+## 使用結果範例
+
+* PASS
+
+![PASS](https://i.imgur.com/6bCuMxV.png)
+
+* FAIL
+  
+![FAIL](https://i.imgur.com/QrqBIrY.png)
+
 ## 環境
 
 * Windows 10 (64-bit)
@@ -18,7 +28,7 @@
 5. 整合測資:
    1. 將[測資](https://github.com/david20571015/auto-demo#%E6%B8%AC%E8%B3%87%E6%A0%BC%E5%BC%8F-%E5%8F%83%E8%80%83)放到`test.in`中
    2. 將各題編譯好的執行檔放到`.\exec`資料夾中
-   3. 執行`python build_test.py`
+   3. 執行`python build_test.py`或用`python build_test.py --output-dir output`將程式的輸出存到./output
 6. (Optional) 將本次lab的執行檔放成[指定的格式](https://github.com/david20571015/auto-demo#%E5%9F%B7%E8%A1%8C%E6%AA%94%E6%A0%BC%E5%BC%8F)後測試auto-demo執行: `python grade.py --execution-dir .\exec` (所有題目都要PASS)
 7. 產生auto-demo執行檔: `python -OO -m PyInstaller --onefile --add-data "test.json;." .\grade.py`
 8. (Optional) 刪除編譯過程產生的檔案: `rmdir -Recurse -Force ".\build"; rm ".\grade.spec"`
@@ -64,12 +74,5 @@
 .
 ```
 
-## 使用結果範例
-
-* PASS
-
-![PASS](https://i.imgur.com/6bCuMxV.png)
-
-* FAIL
-  
-![FAIL](https://i.imgur.com/QrqBIrY.png)
+## 錯誤回報
+這個工具是課餘時間寫的，使用上可能會遇到我沒注意到的bug，請利用[issue](https://github.com/david20571015/auto-demo/issues)回報，或直接用[pull requests](https://github.com/david20571015/auto-demo/pulls)協助修正問題。謝謝。
