@@ -79,6 +79,13 @@ class TestBuilder(object):
                           'w') as f:
                     print(output, end='', file=f)
 
+        with open(f'{output_dir}\\all.txt', 'w') as f:
+            for testcase in self.testcases:
+                for i, output in enumerate(testcase["outputs"]):
+                    print(f'# {testcase["id"]}-{i+1}', file=f)
+                    print(output, file=f)
+                    print('-' * 20, file=f)
+
     def to_json(self, filename='.\\test.json'):
         with open(filename, 'w') as f:
             json.dump(self.testcases, fp=f, indent=2)
