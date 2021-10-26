@@ -66,11 +66,16 @@ class Grader(object):
             for student_output, output in log:
                 self._print_details(student_output, output, mask)
 
-    def _print_details(self, student_output, output, mask=[]):
+    def _print_details(self, output, answer, mask=[]):
 
-        def print_line(text, mask=[]):
-            for i, line in enumerate(StringIO(text).readlines()):
-                info = f'{i+1:>2}. {len(line):<3}'
+        def parse_text(text):
+            return [
+                [str(len(line)), line] for line in StringIO(text).readlines()
+            ]
+
+        def print_line(lines, mask=[]):
+            for i, (length, line) in enumerate(lines):
+                info = f'{i+1:>2}. {length:<3}'
                 if i + 1 in mask:
                     result = Fore.LIGHTBLACK_EX + '(hidden)' + Fore.RESET
                 else:
@@ -78,11 +83,41 @@ class Grader(object):
                                           Back.MAGENTA + '\\n' + Back.RESET)
                 print(' ' * 8 + f'{info}|{result}')
 
+        output_lines = parse_text(output)
+        answer_lines = parse_text(answer)
+
+        # Redundant output lines are all wrong.
+        for i in range(len(answer_lines), len(output_lines)):
+            output_lines[i][1] = Back.RED + output_lines[i][1] + Back.RESET
+
+        for i in range(min(len(answer_lines), len(output_lines))):
+            if output_lines[i][1] == answer_lines[i][1]:
+                continue
+
+            # Mark wrong line length.
+            if output_lines[i][0] != answer_lines[i][0]:
+                output_lines[i][0] = Back.RED + output_lines[i][0] + Back.RESET + \
+                    ' ' * (3 - len(output_lines[i][0])) # Pad spece to fit the output format.
+
+                if output_lines[i][0] > answer_lines[i][0]:
+                    first_redundant_pos = int(answer_lines[i][0])
+                    output_lines[i][1] = \
+                        output_lines[i][1][:first_redundant_pos] + \
+                        Back.RED + output_lines[i][1][first_redundant_pos:]
+
+            # Mark from first wrong character.
+            for j in range(min(len(answer_lines[i][1]),
+                               len(output_lines[i][1]))):
+                if output_lines[i][1][j] != answer_lines[i][1][j]:
+                    output_lines[i][1] = \
+                        output_lines[i][1][:j] + Back.RED + output_lines[i][1][j:]
+                    break
+
         print(' ' * 8 + Fore.LIGHTRED_EX + '#' * 20 + ' YOUR OUTPUT ' +
-              '#' * 20)
-        print_line(student_output)
+              '#' * 21)
+        print_line(output_lines)
         print(' ' * 8 + Fore.LIGHTGREEN_EX + '-' * 23 + ' ANSWER ' + '-' * 23)
-        print_line(output, mask)
+        print_line(answer_lines, mask)
         print(' ' * 8 + Fore.LIGHTCYAN_EX + '#' * 54)
 
     def _execute(self, execution: str, input: str) -> str:
