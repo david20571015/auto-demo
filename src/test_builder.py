@@ -30,8 +30,22 @@ class TestBuilder(object):
                     end = int(end) + 1
                     mask.extend(list(range(start, end)))
 
-                n_cases = int(f.readline())
-                inputs = [f.readline().strip() for _ in range(n_cases)]
+                n_cases,combo_input = f.readline().strip().split(' ')
+                n_cases = int(n_cases)
+                combo_input = int(combo_input)
+                if combo_input == 0:
+                    inputs = [f.readline().strip() for _ in range(n_cases)]
+                else:
+                    inputs = []
+                    inputs_tmp:str = ''
+                    count_cases = 0
+                    while count_cases < n_cases:
+                        inline = f.readline().strip()
+                        inputs_tmp +=  inline + '\n'
+                        if (inline is CTRL_D) or (inline is CTRL_Z):
+                            inputs.append(inputs_tmp)
+                            inputs_tmp = ''
+                            count_cases = count_cases + 1
 
                 testcase = {
                     'id': id,
