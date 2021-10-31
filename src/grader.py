@@ -1,5 +1,7 @@
 import json
+import random
 import subprocess
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 
@@ -16,6 +18,24 @@ class Grader(object):
             raise FileNotFoundError(f'{self.execution_dir} not found.')
 
         self.testcases = []
+
+    def print_verification_code(self,
+                                index=5,
+                                shift=10,
+                                block_size=4,
+                                n_blocks=3):
+        veri_code = (datetime.now().minute + shift) % 100
+
+        veri_seq = ''.join(
+            [str(random.randint(0, 9)) for _ in range(block_size * n_blocks)])
+        veri_seq = veri_seq[:index] + str(veri_code) + veri_seq[index + 2:]
+
+        veri_block = [
+            veri_seq[i:i + block_size]
+            for i in range(0, len(veri_seq), block_size)
+        ]
+
+        print('-'.join(veri_block))
 
     def judge(self):
         if not self.testcases:

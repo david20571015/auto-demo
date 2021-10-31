@@ -24,6 +24,15 @@ if __name__ == '__main__':
     parser = ArgumentParser(
         prog='grade.py',
         description='Run this program to grade your execution files.')
+    parser.add_argument('--verification-digit',
+                        '--veri-digit',
+                        '-v',
+                        default=5,
+                        type=int,
+                        help='''The index that shows the verification digit.
+                            The index is starts from 1. For example, 5 means 
+                            that the 5th and 6th digits are verification 
+                            codes.''')
     parser.add_argument('--execution-dir',
                         '-e',
                         default='.',
@@ -37,6 +46,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     grader = Grader(execution_dir=args.execution_dir)
+    grader.print_verification_code(args.verification_digit - 1)
     grader.parse_testcase_file(resource_path(args.testcase_file))
     grader.judge()
 
