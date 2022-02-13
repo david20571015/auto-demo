@@ -1,4 +1,5 @@
 import json
+import os
 import random
 import subprocess
 from datetime import datetime
@@ -12,7 +13,7 @@ init(autoreset=True, wrap=True)
 
 class Grader(object):
 
-    def __init__(self, execution_dir='.\\exec'):
+    def __init__(self, execution_dir=f'.{os.sep}exec'):
         self.execution_dir = execution_dir
         if not Path(self.execution_dir).is_dir():
             raise FileNotFoundError(f'{self.execution_dir} not found.')
@@ -46,7 +47,7 @@ class Grader(object):
         for testcase in self.testcases:
             print(f'{testcase["id"]}. ', end='')
 
-            execution_file = f'{self.execution_dir}\\{testcase["id"]}.exe'
+            execution_file = f'{self.execution_dir}{os.sep}{testcase["id"]}.exe'
             if not Path(execution_file).is_file():
                 print(Fore.RED + 'ERROR: ' + Fore.RESET +
                       f'{execution_file} not found.')
@@ -64,7 +65,7 @@ class Grader(object):
             mask = testcase['mask'] if testcase['print_detail'] else []
             self._print_result(correct, len(testcase['inputs']), log, mask)
 
-    def parse_testcase_file(self, testcase_file='.\\test.json'):
+    def parse_testcase_file(self, testcase_file=f'.{os.sep}test.json'):
         if not Path(testcase_file).is_file():
             raise FileNotFoundError(f'{testcase_file} not found.')
 

@@ -1,3 +1,4 @@
+import os
 from argparse import ArgumentParser
 
 from src.test_builder import TestBuilder
@@ -8,12 +9,12 @@ if __name__ == '__main__':
         description='Run this program to generate test cases JSON file.')
     parser.add_argument('--execution-dir',
                         '-e',
-                        default='.\\exec',
+                        default=f'.{os.sep}exec',
                         type=str,
                         help='The directory of execution files.')
     parser.add_argument('--test-file',
                         '-t',
-                        default='.\\test.in',
+                        default=f'.{os.sep}test.in',
                         type=str,
                         help='The file of input data.')
     parser.add_argument('--output-dir',
@@ -22,7 +23,7 @@ if __name__ == '__main__':
                         help='The directory of output data.')
     parser.add_argument('--json-file',
                         '-j',
-                        default='.\\test.json',
+                        default=f'.{os.sep}test.json',
                         type=str,
                         help='The file of test cases.')
     args = parser.parse_args()

@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -9,14 +10,14 @@ init(autoreset=True, wrap=True)
 
 class TestBuilder(object):
 
-    def __init__(self, execution_dir='.\\exec'):
+    def __init__(self, execution_dir=f'.{os.sep}exec'):
         self.execution_dir = execution_dir
         if not Path(self.execution_dir).is_dir():
             raise FileNotFoundError(f'{self.execution_dir} not found.')
 
         self.testcases = []
 
-    def parse_test_file(self, test_file='.\\test.in'):
+    def parse_test_file(self, test_file=f'.{os.sep}test.in'):
         if not Path(test_file).is_file():
             raise FileNotFoundError(f'{test_file} not found.')
 
@@ -48,7 +49,7 @@ class TestBuilder(object):
         for testcase in self.testcases:
             print(f'Question {testcase["id"]}. ', end='')
 
-            execution_file = f'{self.execution_dir}\\{testcase["id"]}.exe'
+            execution_file = f'{self.execution_dir}{os.sep}{testcase["id"]}.exe'
             if not Path(execution_file).is_file():
                 print(Fore.RED + 'Error: ' + Fore.RESET +
                       f'{execution_file} not found')
@@ -66,7 +67,7 @@ class TestBuilder(object):
             print(Fore.GREEN + 'Successed: ' + Fore.RESET +
                   f'got {len(outputs)} test cases.')
 
-    def dump_outputs(self, output_dir='.\\outputs'):
+    def dump_outputs(self, output_dir=f'.{os.sep}outputs'):
         if 'outputs' not in self.testcases[0].keys():
             raise RuntimeError(
                 'Please invoke TestBuilder.execute() before invoke this function.'
@@ -75,17 +76,17 @@ class TestBuilder(object):
 
         for testcase in self.testcases:
             for i, output in enumerate(testcase["outputs"]):
-                with open(f'{output_dir}\\{testcase["id"]}-{i+1}.txt',
+                with open(f'{output_dir}{os.sep}{testcase["id"]}-{i+1}.txt',
                           'w') as f:
                     print(output, end='', file=f)
 
-        with open(f'{output_dir}\\all.txt', 'w') as f:
+        with open(f'{output_dir}{os.sep}all.txt', 'w') as f:
             for testcase in self.testcases:
                 for i, output in enumerate(testcase["outputs"]):
                     print(f'# {testcase["id"]}-{i+1}', file=f)
                     print(output, file=f)
                     print('-' * 20, file=f)
 
-    def to_json(self, filename='.\\test.json'):
+    def to_json(self, filename=f'.{os.sep}test.json'):
         with open(filename, 'w') as f:
             json.dump(self.testcases, fp=f, indent=2)

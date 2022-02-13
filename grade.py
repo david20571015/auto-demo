@@ -1,3 +1,4 @@
+import os
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
@@ -17,7 +18,7 @@ def resource_path(relative_path):
     except Exception:
         base_path = Path.cwd()
 
-    return f'{str(base_path)}\\{relative_path}'
+    return f'{str(base_path)}{os.sep}{relative_path}'
 
 
 if __name__ == '__main__':
@@ -40,7 +41,7 @@ if __name__ == '__main__':
                         help='The directory of execution files.')
     parser.add_argument('--testcase-file',
                         '-t',
-                        default='.\\test.json',
+                        default=f'.{os.sep}test.json',
                         type=str,
                         help='The file of test cases.')
     args = parser.parse_args()
