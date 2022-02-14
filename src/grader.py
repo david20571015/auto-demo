@@ -8,6 +8,8 @@ from pathlib import Path
 
 from colorama import Back, Fore, init
 
+from .env_var import EXECUTION_SUFFIX
+
 init(autoreset=True, wrap=True)
 
 
@@ -47,7 +49,7 @@ class Grader(object):
         for testcase in self.testcases:
             print(f'{testcase["id"]}. ', end='')
 
-            execution_file = f'{self.execution_dir}{os.sep}{testcase["id"]}.exe'
+            execution_file = f'{self.execution_dir}{os.sep}{testcase["id"]}{EXECUTION_SUFFIX}'
             if not Path(execution_file).is_file():
                 print(Fore.RED + 'ERROR: ' + Fore.RESET +
                       f'{execution_file} not found.')

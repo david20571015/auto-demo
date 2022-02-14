@@ -5,6 +5,8 @@ from pathlib import Path
 
 from colorama import Fore, init
 
+from .env_var import EXECUTION_SUFFIX
+
 init(autoreset=True, wrap=True)
 
 
@@ -49,7 +51,7 @@ class TestBuilder(object):
         for testcase in self.testcases:
             print(f'Question {testcase["id"]}. ', end='')
 
-            execution_file = f'{self.execution_dir}{os.sep}{testcase["id"]}.exe'
+            execution_file = f'{self.execution_dir}{os.sep}{testcase["id"]}{EXECUTION_SUFFIX}'
             if not Path(execution_file).is_file():
                 print(Fore.RED + 'Error: ' + Fore.RESET +
                       f'{execution_file} not found')
