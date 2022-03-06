@@ -78,7 +78,8 @@ class Grader(object):
                       correct,
                       total,
                       log: list[tuple[str, str]],
-                      mask=[]):
+                      mask=None):
+        mask = mask or []
         if total == 0:
             print(Fore.RED + 'ERROR: ' + Fore.RESET +
                   'There is no test data for this question.')
@@ -89,14 +90,15 @@ class Grader(object):
             for student_output, output in log:
                 self._print_details(student_output, output, mask)
 
-    def _print_details(self, output, answer, mask=[]):
-
+    def _print_details(self, output, answer, mask=None):
+        mask = mask or []
         def parse_text(text):
             return [
                 [str(len(line)), line] for line in StringIO(text).readlines()
             ]
 
-        def print_line(lines, mask=[]):
+        def print_line(lines, mask=None):
+            mask = mask or []
             for i, (length, line) in enumerate(lines):
                 info = f'{i+1:>2}. {length:<3}'
                 if i + 1 in mask:
@@ -148,5 +150,6 @@ class Grader(object):
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               input=input,
-                              encoding='ascii')
+                              encoding='UTF-8',
+                              errors='ignore')
         return proc.stdout or proc.stderr
