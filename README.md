@@ -8,7 +8,7 @@
 
 * FAIL
   
-![FAIL](https://i.imgur.com/IsCu2Qj.png)
+![FAIL](https://i.imgur.com/OWzRIvC.png)
 
 ## 環境
 

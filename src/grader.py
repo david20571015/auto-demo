@@ -92,51 +92,39 @@ class Grader(object):
 
     def _print_details(self, output, answer, mask=None):
         mask = mask or []
+
         def parse_text(text):
-            return [
-                [str(len(line)), line] for line in StringIO(text).readlines()
-            ]
+            return [[str(len(line.split())),
+                     line.split()] for line in StringIO(text).readlines()]
 
         def print_line(lines, mask=None):
             mask = mask or []
-            for i, (length, line) in enumerate(lines):
-                info = f'{i+1:>2}. {length:<3}'
+            for i, (n_tokens, tokens) in enumerate(lines):
+                info = f'{i+1:>2}. {n_tokens:<3}'
                 if i + 1 in mask:
                     result = Fore.LIGHTBLACK_EX + '(hidden)' + Fore.RESET
                 else:
-                    result = line.replace('\n',
-                                          Back.MAGENTA + '\\n' + Back.RESET)
+                    result = (Back.LIGHTBLACK_EX + ' ' +
+                              Back.RESET).join(tokens)
                 print(' ' * 8 + f'{info}|{result}')
 
         output_lines = parse_text(output)
         answer_lines = parse_text(answer)
 
-        # Redundant output lines are all wrong.
-        for i in range(len(answer_lines), len(output_lines)):
-            output_lines[i][1] = Back.RED + output_lines[i][1] + Back.RESET
+        for i, ((n_output_tokens, output_tokens),
+                (n_answer_tokens,
+                 answer_tokens)) in enumerate(zip(output_lines, answer_lines)):
 
-        for i in range(min(len(answer_lines), len(output_lines))):
-            if output_lines[i][1] == answer_lines[i][1]:
-                continue
+            if n_output_tokens != n_answer_tokens:
+                output_lines[i][0] = Back.RED + n_output_tokens + Back.RESET + \
+                    ' ' * (3 - len(output_lines[i][0]))
 
-            # Mark wrong line length.
-            if output_lines[i][0] != answer_lines[i][0]:
-                output_lines[i][0] = Back.RED + output_lines[i][0] + Back.RESET + \
-                    ' ' * (3 - len(output_lines[i][0])) # Pad spece to fit the output format.
-
-                if output_lines[i][0] > answer_lines[i][0]:
-                    first_redundant_pos = int(answer_lines[i][0])
-                    output_lines[i][1] = \
-                        output_lines[i][1][:first_redundant_pos] + \
-                        Back.RED + output_lines[i][1][first_redundant_pos:]
-
-            # Mark from first wrong character.
-            for j in range(min(len(answer_lines[i][1]),
-                               len(output_lines[i][1]))):
-                if output_lines[i][1][j] != answer_lines[i][1][j]:
-                    output_lines[i][1] = \
-                        output_lines[i][1][:j] + Back.RED + output_lines[i][1][j:]
-                    break
+            for j, (output_token,
+                    answer_token) in enumerate(zip(output_tokens,
+                                                   answer_tokens)):
+                if output_token != answer_token:
+                    output_lines[i][1][j] = Back.RED + output_token + \
+                        Back.RESET
 
         print(' ' * 8 + Fore.LIGHTRED_EX + '#' * 20 + ' YOUR OUTPUT ' +
               '#' * 21)
