@@ -104,8 +104,7 @@ class Grader(object):
                 if i + 1 in mask:
                     result = Fore.LIGHTBLACK_EX + '(hidden)' + Fore.RESET
                 else:
-                    result = (Back.LIGHTBLACK_EX + ' ' +
-                              Back.RESET).join(tokens)
+                    result = ' '.join(tokens)
                 print(' ' * 8 + f'{info}|{result}')
 
         output_lines = parse_text(output)
