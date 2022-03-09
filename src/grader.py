@@ -21,6 +21,7 @@ class Grader(object):
             raise FileNotFoundError(f'{self.execution_dir} not found.')
 
         self.testcases = []
+        self.passed_original_output = {str(i): "" for i in range(11)}
 
     def print_verification_code(self,
                                 index=5,
@@ -61,11 +62,13 @@ class Grader(object):
                 student_output = self._execute(execution_file, input)
                 if student_output == output:
                     correct += 1
+                    self.passed_original_output[testcase["id"]] = output
                 elif testcase['print_detail']:
                     log.append((student_output, output))
 
             mask = testcase['mask'] if testcase['print_detail'] else []
             self._print_result(correct, len(testcase['inputs']), log, mask)
+        self._print_passed()
 
     def parse_testcase_file(self, testcase_file=f'.{os.sep}test.json'):
         if not Path(testcase_file).is_file():
@@ -140,3 +143,9 @@ class Grader(object):
                               encoding='UTF-8',
                               errors='ignore')
         return proc.stdout or proc.stderr
+
+    def _print_passed(self):
+        print(Fore.GREEN + 'Passed original output:' + Fore.RESET)
+        for id, output in self.passed_original_output.items():
+            if output != "":
+                print(f'{id}:\n{output}')
