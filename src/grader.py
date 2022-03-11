@@ -60,7 +60,7 @@ class Grader(object):
             log = []
             for input, output in zip(testcase['inputs'], testcase['outputs']):
                 student_output = self._execute(execution_file, input)
-                if student_output == output:
+                if self._output_equal(student_output, output):
                     correct += 1
                     self.passed_original_output[testcase["id"]] = output
                 elif testcase['print_detail']:
@@ -149,3 +149,16 @@ class Grader(object):
         for id, output in self.passed_original_output.items():
             if output != "":
                 print(f'{id}:\n{output}')
+
+    def _output_equal(self, output, answer):
+        output_lines = output.split('\n')
+        answer_lines = answer.split('\n')
+        if len(output_lines) != len(answer_lines):
+            return False
+        for (output_line, answer_line) in zip(output_lines, answer_lines):
+            for (output_token, answer_token) in zip(output_line.split(),
+                                                    answer_line.split()):
+                if output_token != answer_token:
+                    print(f'{output_token} != {answer_token}')
+                    return False
+        return True
