@@ -159,6 +159,5 @@ class Grader(object):
             for (output_token, answer_token) in zip(output_line.split(),
                                                     answer_line.split()):
                 if output_token != answer_token:
-                    print(f'{output_token} != {answer_token}')
                     return False
         return True
