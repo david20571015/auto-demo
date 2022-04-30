@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+from curses import ascii
 from pathlib import Path
 
 from colorama import Fore, init
@@ -34,7 +35,7 @@ class TestBuilder(object):
                     mask.extend(list(range(start, end)))
 
                 n_cases = int(f.readline())
-                inputs = [f.readline().strip() for _ in range(n_cases)]
+                inputs = [f.readline().strip().replace('\4', '\n') for _ in range(n_cases)]
 
                 testcase = {
                     'id': id,
@@ -62,7 +63,7 @@ class TestBuilder(object):
                 output = subprocess.run(execution_file,
                                         stdout=subprocess.PIPE,
                                         input=input,
-                                        encoding='ascii').stdout
+                                        encoding='UTF-8').stdout
                 outputs.append(output)
             testcase |= {'outputs': outputs}
 
