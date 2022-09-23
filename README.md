@@ -13,7 +13,7 @@
 ## 環境
 
 * Windows 10 (64-bit)
-* Python 3.9.5
+* Python 3.10.3
 
 * Ubuntu 20.04.3 LTS (WSL)
 * Python 3.9.5
@@ -22,26 +22,28 @@
 
 ## 使用方法 for TAs
 
+安裝 [poetry](https://python-poetry.org/docs/#installing-with-the-official-installer)
+> 請注意path有沒有設好
+
 ### Windows
 
 1. 取得這個repo: (以下沒特別講都是在這個repo的資料夾下執行)
    * `git clone --branch main https://github.com/david20571015/auto-demo.git` 或
    * [Download](https://github.com/david20571015/auto-demo/archive/refs/heads/main.zip)
-2. 安裝 [pipenv](https://pypi.org/project/pipenv/): `pip install pipenv`
-3. 安裝需要的dependency: `pipenv install --dev --skip-lock`
-4. 進入pipenv (以下沒特別講都在這個shell中執行): `pipenv shell`
-5. 整合測資:
+2. 安裝需要的dependency: `poetry install`
+3. 進入pipenv (以下沒特別講都在這個shell中執行): `poetry shell`
+4. 整合測資:
    1. 將[測資](https://github.com/david20571015/auto-demo#%E6%B8%AC%E8%B3%87%E6%A0%BC%E5%BC%8F-%E5%8F%83%E8%80%83)放到`test.in`中
    2. 將各題編譯好的執行檔放到`.\exec`資料夾中
    3. 執行`python build_test.py`或用`python build_test.py --output-dir output`將程式的輸出存到./output
-6. (Optional) 將本次lab的執行檔放成[指定的格式](https://github.com/david20571015/auto-demo#%E5%9F%B7%E8%A1%8C%E6%AA%94%E6%A0%BC%E5%BC%8F)後測試auto-demo執行: `python grade.py --execution-dir .\exec` (所有題目都要PASS)
-7. 產生auto-demo執行檔: `python -OO -m PyInstaller --onefile --add-data "test.json;." .\grade.py`
-8. (Optional) 刪除編譯過程產生的檔案: `rmdir -Recurse -Force ".\build"; rm ".\grade.spec"`
-9. `.\dist\grade.exe`即為auto-demo的執行檔
-10. (Optional) 將`.\dist\grade.exe`移到`.\exec`中點兩下執行，檢查是否能正常使用
-11. (Optional) 移除這個pipenv的dependency: `pipenv --rm`
+5. (Optional) 將本次lab的執行檔放成[指定的格式](https://github.com/david20571015/auto-demo#%E5%9F%B7%E8%A1%8C%E6%AA%94%E6%A0%BC%E5%BC%8F)後測試auto-demo執行: `python grade.py --execution-dir .\exec` (所有題目都要PASS)
+6. 產生auto-demo執行檔: `python -OO -m PyInstaller --onefile --add-data "test.json;." .\grade.py`
+7. (Optional) 刪除編譯過程產生的檔案: `rmdir -Recurse -Force ".\build"; rm ".\grade.spec"`
+8. `.\dist\grade.exe`即為auto-demo的執行檔
+9. (Optional) 將`.\dist\grade.exe`移到`.\exec`中點兩下執行，檢查是否能正常使用
+10. (Optional) 移除這個pipenv的dependency: `poetry env remove --all`
 
-### Linux
+### Linux (out-of-dated)
 
 1. 取得這個repo: (以下沒特別講都是在這個repo的資料夾下執行)
    * `git clone --branch main https://github.com/david20571015/auto-demo.git` 或

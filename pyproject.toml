@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "auto-demo"
+version = "0.1.0"
+description = ""
+authors = ["David Chiu <david20571015@gmail.com>"]
+readme = "README.md"
+packages = [{include = "auto_demo"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+colorama = "^0.4.5"
+pyinstaller = "^5.4.1"
+
+[tool.poetry.group.dev.dependencies]
+yapf = "^0.32.0"
+pylint = "^2.15.3"
+toml = "^0.10.2"
+
+[tool.yapf]
+based_on_style = "google"
+
+[tool.isort]
+profile = "google"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
