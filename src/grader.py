@@ -98,7 +98,7 @@ class Grader(object):
 
         def parse_text(text):
             return [[str(len(line.split())),
-                     line.split()] for line in StringIO(text).readlines()]
+                     line.split(' ')] for line in StringIO(text)]
 
         def print_line(lines, mask=None):
             mask = mask or []
@@ -107,7 +107,8 @@ class Grader(object):
                 if i + 1 in mask:
                     result = Fore.LIGHTBLACK_EX + '(hidden)' + Fore.RESET
                 else:
-                    result = ' '.join(tokens)
+                    result = ' '.join(tokens).replace(
+                        '\n', Back.MAGENTA + '\\n' + Back.RESET)
                 print(' ' * 8 + f'{info}|{result}')
 
         output_lines = parse_text(output)
