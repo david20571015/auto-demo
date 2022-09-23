@@ -1,7 +1,6 @@
 import json
 import os
 import subprocess
-from curses import ascii
 from pathlib import Path
 
 from colorama import Fore, init
