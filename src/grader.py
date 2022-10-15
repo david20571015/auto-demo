@@ -157,6 +157,8 @@ class Grader(object):
         if len(output_lines) != len(answer_lines):
             return False
         for (output_line, answer_line) in zip(output_lines, answer_lines):
+            if len(output_line.split()) != len(answer_line.split()):
+                return False
             for (output_token, answer_token) in zip(output_line.split(),
                                                     answer_line.split()):
                 if output_token != answer_token:
