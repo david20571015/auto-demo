@@ -97,8 +97,10 @@ class Grader(object):
         mask = mask or []
 
         def parse_text(text):
-            return [[str(len(line.split())),
-                     line.split(' ')] for line in StringIO(text)]
+            return [[
+                str(len(line.split())),
+                list(filter(lambda x: x, line.split(' ')))
+            ] for line in StringIO(text).readlines()]
 
         def print_line(lines, mask=None):
             mask = mask or []
