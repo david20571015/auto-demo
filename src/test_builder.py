@@ -34,7 +34,7 @@ class TestBuilder(object):
                     mask.extend(list(range(start, end)))
 
                 n_cases = int(f.readline())
-                inputs = [f.readline().strip().replace('\4', '\n') for _ in range(n_cases)]
+                inputs = [f.readline().strip() for _ in range(n_cases)]
 
                 testcase = {
                     'id': id,
