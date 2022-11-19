@@ -74,7 +74,7 @@ class Grader(object):
         if not Path(testcase_file).is_file():
             raise FileNotFoundError(f'{testcase_file} not found.')
 
-        with open(testcase_file, 'r') as f:
+        with open(testcase_file, 'r', encoding='utf-8') as f:
             self.testcases = json.load(f)
 
     def _print_result(self,
@@ -143,7 +143,7 @@ class Grader(object):
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               input=input,
-                              encoding='UTF-8',
+                              encoding='utf-8',
                               errors='ignore')
         return proc.stdout or proc.stderr
 

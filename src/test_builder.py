@@ -23,7 +23,7 @@ class TestBuilder(object):
         if not Path(test_file).is_file():
             raise FileNotFoundError(f'{test_file} not found.')
 
-        with open(test_file, 'r') as f:
+        with open(test_file, 'r', encoding='utf-8') as f:
             while True:
                 id, print_detail, *mask_range = f.readline().strip().split(' ')
 
@@ -62,7 +62,7 @@ class TestBuilder(object):
                 output = subprocess.run(execution_file,
                                         stdout=subprocess.PIPE,
                                         input=input,
-                                        encoding='UTF-8').stdout
+                                        encoding='utf-8').stdout
                 outputs.append(output)
             testcase |= {'outputs': outputs}
 
@@ -79,10 +79,11 @@ class TestBuilder(object):
         for testcase in self.testcases:
             for i, output in enumerate(testcase["outputs"]):
                 with open(f'{output_dir}{os.sep}{testcase["id"]}-{i+1}.txt',
-                          'w') as f:
+                          'w',
+                          encoding='utf-8') as f:
                     print(output, end='', file=f)
 
-        with open(f'{output_dir}{os.sep}all.txt', 'w') as f:
+        with open(f'{output_dir}{os.sep}all.txt', 'w', encoding='utf-8') as f:
             for testcase in self.testcases:
                 for i, output in enumerate(testcase["outputs"]):
                     print(f'# {testcase["id"]}-{i+1}', file=f)
@@ -90,5 +91,5 @@ class TestBuilder(object):
                     print('-' * 20, file=f)
 
     def to_json(self, filename=f'.{os.sep}test.json'):
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.testcases, fp=f, indent=2)
