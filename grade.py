@@ -5,7 +5,7 @@ from pathlib import Path
 
 from colorama import Fore, init
 
-from src.grader import Grader
+from auto_demo.grader import Grader
 
 init(autoreset=True, wrap=True)
 
@@ -31,8 +31,8 @@ if __name__ == '__main__':
                         default=5,
                         type=int,
                         help='''The index that shows the verification digit.
-                            The index is starts from 1. For example, 5 means 
-                            that the 5th and 6th digits are verification 
+                            The index is starts from 1. For example, 5 means
+                            that the 5th and 6th digits are verification
                             codes.''')
     parser.add_argument('--execution-dir',
                         '-e',

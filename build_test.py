@@ -1,7 +1,7 @@
 import os
 from argparse import ArgumentParser
 
-from src.test_builder import TestBuilder
+from auto_demo.test_builder import TestBuilder
 
 if __name__ == '__main__':
     parser = ArgumentParser(
