@@ -1,9 +1,9 @@
-import os
-import sys
 from argparse import ArgumentParser
+import os
 from pathlib import Path
+import sys
 
-from colorama import Fore, init
+from colorama import init
 
 from auto_demo.grader import Grader
 
@@ -14,8 +14,8 @@ def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS  # type: ignore
-    except Exception:
+        base_path = sys._MEIPASS # pylint: disable=protected-access # type: ignore
+    except AttributeError:
         base_path = Path.cwd()
 
     return f'{str(base_path)}{os.sep}{relative_path}'

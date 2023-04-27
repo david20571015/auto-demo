@@ -1,5 +1,5 @@
-import os
 from argparse import ArgumentParser
+import os
 
 from auto_demo.test_builder import TestBuilder
 

@@ -1,12 +1,14 @@
-import json
-import os
-import random
-import subprocess
 from datetime import datetime
 from io import StringIO
+import json
+import os
 from pathlib import Path
+import random
+import subprocess
 
-from colorama import Back, Fore, init
+from colorama import Back
+from colorama import Fore
+from colorama import init
 
 from .env_var import EXECUTION_SUFFIX
 

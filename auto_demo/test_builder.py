@@ -1,9 +1,10 @@
 import json
 import os
-import subprocess
 from pathlib import Path
+import subprocess
 
-from colorama import Fore, init
+from colorama import Fore
+from colorama import init
 
 from .env_var import EXECUTION_SUFFIX
 
