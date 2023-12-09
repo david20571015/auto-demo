@@ -9,7 +9,7 @@ packages = [{include = "auto_demo"}]
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
 colorama = "^0.4.5"
-pyinstaller = "^5.4.1"
+pyinstaller = "^5.13.1"
 
 [tool.poetry.group.dev.dependencies]
 yapf = "^0.32.0"
